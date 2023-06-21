@@ -1,6 +1,6 @@
 /*
  * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Teplates
+ * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
 package com.codebrains.training.student;
@@ -11,7 +11,7 @@ import java.util.Scanner;
  *
  * @author hp
  */
-public class StudentArray {
+public class StudHighestMarks {
 
     int rno;
     String name;
@@ -22,7 +22,7 @@ public class StudentArray {
         return m1 + m2;
     }
 
-    public StudentArray() {
+    public StudHighestMarks() {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter Rollno");
         rno = scan.nextInt();
@@ -37,18 +37,23 @@ public class StudentArray {
     }
 
     public static void main(String args[]) {
-        StudentArray array[] = new StudentArray[2];
+        StudHighestMarks array[] = new StudHighestMarks[3];
         for (int i = 0; i < array.length; i++) {
-            StudentArray stud = new StudentArray();
+            StudHighestMarks stud = new StudHighestMarks();
             array[i] = stud;
         }
-
+        int big = 0;
+        StudHighestMarks highStudent=null;
         for (int i = 0; i < array.length; i++) {
-            StudentArray stud = array[i];
+            StudHighestMarks stud = array[i];
             int tot = stud.getTotal();//Accessing
-            System.out.println((i + 1) + " student total marks=" + tot);
+            if (tot > big) {
+                big=tot;
+                highStudent=stud;
+            }
         }
-
+        
+        System.out.println(highStudent.name +" got highest marks "+highStudent.getTotal());
     }
 
 }
