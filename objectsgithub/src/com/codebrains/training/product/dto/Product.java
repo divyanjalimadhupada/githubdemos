@@ -3,7 +3,6 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-
 package com.codebrains.training.product.dto;
 
 import java.util.Scanner;
@@ -13,13 +12,12 @@ import java.util.Scanner;
  * @author hp
  */
 public class Product {
+
     public int sno;
     public String productname;
     public String category;
-   public int price;
-   public int quantity;
-
-    
+    public float price;
+    public int quantity;
 
     public void setDetails() {
         Scanner scan = new Scanner(System.in);
@@ -35,6 +33,16 @@ public class Product {
         quantity = scan.nextInt();
     }
 
-    
-    
+    public Product() {
+
+    }
+
+    public Product(int pno, String name, String category, float cost, int qty) {
+        sno = pno;
+        productname = name;
+        this.category = category;
+        price = cost;
+        quantity = qty;
+    }
+
 }
