@@ -25,7 +25,7 @@ public class ViewCategoryWiseProducts {
 
         int count1 = 0, count2 = 0;
 
-        System.out.println("household DETAILS");
+        System.out.println("Household DETAILS");
         for (int i = 0; i < array.length; i++) {
             Product prod = array[i];
             if (prod.category.equalsIgnoreCase("household")) {
