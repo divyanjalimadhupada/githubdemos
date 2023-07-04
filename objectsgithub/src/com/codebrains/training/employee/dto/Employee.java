@@ -4,25 +4,25 @@
  * and open the template in the editor.
  */
 
-package com.codebrains.training.EmployeeAndDepartments.dto;
+package com.codebrains.training.employee.dto;
 
 /**
  *
  * @author hp
  */
-public class EmployeeDetails {
+public class Employee {
     public int empId;
     public String empName;
-    public int empSalary;
+    public int sal;
     public int depNum;
 
- public  EmployeeDetails() {
+ public  Employee() {
     
  }   
- public EmployeeDetails(int employeeId, String employeeName, int employeeSalary,int employeeDepartmentNumber) {
+ public Employee(int employeeId, String employeeName, int employeeSalary,int employeeDepartmentNumber) {
         empId = employeeId;
         empName = employeeName;
-        empSalary = employeeSalary;
+        sal = employeeSalary;
         depNum = employeeDepartmentNumber;
         
     }

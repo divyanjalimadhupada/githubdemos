@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.codebrains.training.employee.dto;
+package com.codebrains.training.employee;
 
-import com.codebrains.training.employee.Employee;
-import com.codebrains.training.employee.DeptDetails;
 
+import com.codebrains.training.employee.dto.Department;
+import com.codebrains.training.employee.dto.Employee;
 import java.util.ArrayList;
 
 public class HighestSalaryDeptName {
@@ -26,29 +26,29 @@ public class HighestSalaryDeptName {
         Employee emp5 = new Employee(5, "Veni", 6000, 13);
         employeeList.add(emp5);
 
-        ArrayList<DeptDetails> deptList = new ArrayList<DeptDetails>(5);
-        DeptDetails dept1 = new DeptDetails(11, "CodeBrains", "Vizag");
+        ArrayList<Department> deptList = new ArrayList<Department>(5);
+        Department dept1 = new Department(11, "CodeBrains", "Vizag");
         deptList.add(dept1);
-        DeptDetails dept2 = new DeptDetails(13, "CB", "HYd");
+        Department dept2 = new Department(13, "CB", "HYd");
         deptList.add(dept2);
-        DeptDetails dept3 = new DeptDetails(11, "CodeBrains", "Vizag");
+        Department dept3 = new Department(11, "CodeBrains", "Vizag");
         deptList.add(dept3);
-        DeptDetails dept4 = new DeptDetails(12, "Coding", "vzm");
+        Department dept4 = new Department(12, "Coding", "vzm");
         deptList.add(dept4);
-        DeptDetails dept5 = new DeptDetails(13, "CB", "Hyd");
+        Department dept5 = new Department(13, "CB", "Hyd");
         deptList.add(dept5);
         int departmentNo = 0;
         long highSalary = 0;
         for (Employee emp : employeeList) {  //for each
-            if (emp.salary > highSalary) {
-                highSalary = emp.salary;
-                departmentNo = emp.dNo;
+            if (emp.sal > highSalary) {
+                highSalary = emp.sal;
+                departmentNo = emp.depNum;
             }
         }
         System.out.println("Highest Salary is " + highSalary + " and Department Number is " + departmentNo);
-        for (DeptDetails dept : deptList) {
-            if (departmentNo == dept.dNo) {
-                System.out.println(" Department Name is " + dept.dName + " and Department Location is " + dept.dLoc);
+        for (Department dept : deptList) {
+            if (departmentNo == dept.depNum) {
+                System.out.println(" Department Name is " + dept.depName + " and Department Location is " + dept.depLoc);
             }
 
         }

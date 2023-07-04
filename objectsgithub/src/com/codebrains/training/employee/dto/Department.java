@@ -4,23 +4,23 @@
  * and open the template in the editor.
  */
 
-package com.codebrains.training.EmployeeAndDepartments.dto;
+package com.codebrains.training.employee.dto;
 
 /**
  *
  * @author hp
  */
-public class DepartmentDetails {
+public class Department {
    public int depNum;
    public String depName;
    public String depLoc;
     
     
 
-public DepartmentDetails(){
+public Department(){
 }
 
-public DepartmentDetails(int departmentNumber,String departmentName,String departmentLocation){
+public Department(int departmentNumber,String departmentName,String departmentLocation){
     depNum=departmentNumber;
     depName=departmentName;
     depLoc=departmentLocation;
