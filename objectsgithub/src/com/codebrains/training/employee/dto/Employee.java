@@ -6,6 +6,8 @@
 
 package com.codebrains.training.employee.dto;
 
+import java.util.Scanner;
+
 /**
  *
  * @author hp
@@ -24,6 +26,19 @@ public class Employee {
         empName = employeeName;
         sal = employeeSalary;
         depNum = employeeDepartmentNumber;
+        
+    }
+ 
+  public void setDetails() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("Enter Emp Number");
+        empId = scan.nextInt();
+        System.out.println("Enter Emp Name");
+        empName = scan.next();
+        System.out.println("Enter Emp Salary");
+        sal = scan.nextInt();
+        System.out.println("Enter Dept Number");
+        depNum = scan.nextInt();
         
     }
 }
