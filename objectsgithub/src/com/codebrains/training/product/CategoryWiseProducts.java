@@ -16,7 +16,7 @@ import java.util.Scanner;
  */
 public class CategoryWiseProducts {
     public static void main(String args[]) {
-        Product array[] = new Product[3];
+        Product array[] = new Product[6];
         for (int i = 0; i < array.length; i++) {
             Product prod = new Product();
             prod.setDetails();

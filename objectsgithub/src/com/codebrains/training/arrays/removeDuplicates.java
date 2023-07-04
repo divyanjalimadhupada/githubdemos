@@ -7,7 +7,7 @@
 package com.codebrains.training.arrays;
 
 import java.util.Scanner;
-public class removeDuplicates {
+public class RemoveDuplicates {
     public static void main(String[] args) {
         Scanner scan=new Scanner(System.in);
             int a[]=new int[5];

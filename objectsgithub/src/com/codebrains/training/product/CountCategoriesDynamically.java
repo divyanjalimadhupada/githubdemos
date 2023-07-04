@@ -1,17 +1,8 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.codebrains.training.product.modified;
 
 import com.codebrains.training.product.dto.Product;
 
-/**
- *
- * @author hp
- */
-public class removeDuplicateCategories {
+public class CountCategoriesDynamically {
 
     public static void main(String[] args) {
 
@@ -34,7 +25,7 @@ public class removeDuplicateCategories {
             category[i] = prod.category;
         }
 
-        int isthere ,k=0;
+        int isthere, k = 0;
         String uniqueCategory[] = new String[5];
         for (int i = 0; i < category.length; i++) {
             isthere = 0;
@@ -42,22 +33,20 @@ public class removeDuplicateCategories {
                 if (category[i].equalsIgnoreCase(uniqueCategory[j])) {
                     isthere = 1;
                     break;
-                }}
-
-                if (isthere == 0) {
-                    uniqueCategory[k] = category[i];
-                    k++;
-
                 }
             }
-                System.out.println("total no of categories");
-                for (int i = 0; i < k; i++) {
-                    System.out.println(uniqueCategory[i]);
+            if (isthere == 0) {
+                uniqueCategory[k] = category[i];
+                k++;
 
-                }
             }
+        }
+        
+        System.out.println("total no of categories");
+        for (int i = 0; i < k; i++) {
+            System.out.println(uniqueCategory[i]);
 
         }
+    }
 
-    
-
+}
