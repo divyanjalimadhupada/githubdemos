@@ -2,6 +2,7 @@ package com.codebrains.training.student;
 
 import com.codebrains.training.student.dto.Student;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class studentCrud {
@@ -18,7 +19,7 @@ public class studentCrud {
     public static void main(String[] args) {
         ArrayList<Student> StudentList = new ArrayList<Student>(5);
         Scanner scan = new Scanner(System.in);
-        char isContinue;
+        char isContinue = 0;
         do {
             System.out.println("\tMenu");
             System.out.println("1.Adding");
@@ -27,7 +28,12 @@ public class studentCrud {
             System.out.println("4.Update");
             System.out.println("5.Delete");
             System.out.print("Select The Opttion : ");
-            int option = scan.nextInt();
+            int option = 0;
+            try {
+                option = scan.nextInt();
+            } catch (InputMismatchException ime) {
+                System.out.print("Please Check Your Options ");
+            }
             switch (option) {
                 case 1:
                     Student stud = new Student();
@@ -51,108 +57,104 @@ public class studentCrud {
                     } else {
                         System.out.println("There is no Student with that RollNumber: " + rno);
                     }
-
                     break;
                 case 4:
                     System.out.print("What is your Student RollNumber: ");
                     rno = scan.nextInt();
-                    System.out.println("\t what do you want to update");
-                    System.out.println("a.name");
-                    System.out.println("b.branch");
-                    System.out.println("c.m1");
-                    System.out.println("d.m2");
-                    System.out.print("Select The Opttion : ");
-                    char option2 = scan.next().charAt(0);
-                    switch (option2) {
-                        case 'a':
-                            System.out.print("Enter name for updation:  ");
-                            String name = scan.next();
-                            int isThere = 0;
-                            for (Student student : StudentList) { //for each
-                                if (student.rno == rno) {
-                                    student.name = name;
-                                    System.out.println("name Updated Succesfully");
-                                    isThere = 1;
-                                    break;
+                    studentObject = getStudent(StudentList, rno);
+                    if (studentObject != null) {
+                        System.out.println("\t what do you want to update");
+                        System.out.println("a.name");
+                        System.out.println("b.branch");
+                        System.out.println("c.m1");
+                        System.out.println("d.m2");
+                        System.out.print("Select The Opttion : ");
+                        char option2 = scan.next().charAt(0);
+                        switch (option2) {
+                            case 'a':
+                                System.out.print("Enter name for updation:  ");
+                                String name = scan.next();
+                                int isThere = 0;
+                                for (Student student : StudentList) { //for each
+                                    if (student.rno == rno) {
+                                        student.name = name;
+                                        System.out.println("name Updated Succesfully");
+                                        isThere = 1;
+                                        break;
+                                    }
                                 }
-                            }
-                            if (isThere == 0) {
-                                System.out.println("There is no student with that rollno: " + rno);
-                            }
-                            break;
-                        case 'b':
-                            System.out.print("Enter branch for updation:  ");
-                            String branch = scan.next();
-                            isThere = 0;
-                            for (Student student : StudentList) { //for each
-                                if (student.rno == rno) {
-                                    student.branch = branch;
-                                    System.out.println("branch Updated Succesfully");
-                                    isThere = 1;
-                                    break;
+                                if (isThere == 0) {
+                                    System.out.println("There is no student with that rollno: " + rno);
                                 }
-                            }
-                            if (isThere == 0) {
-                                System.out.println("There is no student with that rollno: " + rno);
-                            }
-                            break;
-                        case 'c':
-                            System.out.print("Enter m1 marks for updation:  ");
-                            int m1 = scan.nextInt();
-                            isThere = 0;
-                            for (Student student : StudentList) { //for each
-                                if (student.rno == rno) {
-                                    student.m1 = m1;
-                                    System.out.println("m1 marks Updated Succesfully");
-                                    isThere = 1;
-                                    break;
+                                break;
+                            case 'b':
+                                System.out.print("Enter branch for updation:  ");
+                                String branch = scan.next();
+                                isThere = 0;
+                                for (Student student : StudentList) { //for each
+                                    if (student.rno == rno) {
+                                        student.branch = branch;
+                                        System.out.println("branch Updated Succesfully");
+                                        isThere = 1;
+                                        break;
+                                    }
                                 }
-                            }
-                            if (isThere == 0) {
-                                System.out.println("There is no student with that rollno: " + rno);
-                            }
-                            break;
-
-                        case 'd':
-                            System.out.print("Enter m2 marks for updation:  ");
-                            int m2 = scan.nextInt();
-                            isThere = 0;
-                            for (Student student : StudentList) { //for each
-                                if (student.rno == rno) {
-                                    student.m2 = m2;
-                                    System.out.println("m2 marks Updated Succesfully");
-                                    isThere = 1;
-                                    break;
+                                if (isThere == 0) {
+                                    System.out.println("There is no student with that rollno: " + rno);
                                 }
-                            }
-                            if (isThere == 0) {
-                                System.out.println("There is no student with that rollno: " + rno);
-                            }
+                                break;
+                            case 'c':
+                                System.out.print("Enter m1 marks for updation:  ");
+                                int m1 = scan.nextInt();
+                                isThere = 0;
+                                for (Student student : StudentList) { //for each
+                                    if (student.rno == rno) {
+                                        student.m1 = m1;
+                                        System.out.println("m1 marks Updated Succesfully");
+                                        isThere = 1;
+                                        break;
+                                    }
+                                }
+                                if (isThere == 0) {
+                                    System.out.println("There is no student with that rollno: " + rno);
+                                }
+                                break;
+                            case 'd':
+                                System.out.print("Enter m2 marks for updation:  ");
+                                int m2 = scan.nextInt();
+                                isThere = 0;
+                                for (Student student : StudentList) { //for each
+                                    if (student.rno == rno) {
+                                        student.m2 = m2;
+                                        System.out.println("m2 marks Updated Succesfully");
+                                        isThere = 1;
+                                        break;
+                                    }
+                                }
+                                if (isThere == 0) {
+                                    System.out.println("There is no student with that rollno: " + rno);
+                                }
+                        }
+                        break;
+                    } else {
+                        System.out.println("no student with that rollno");
                     }
-                    break;
-
                 case 5:
                     System.out.print("What is your Student Roll Number: ");
                     rno = scan.nextInt();
-                    int isThere = 0;
-                    for (Student student : StudentList) {  //for each
-                        if (student.rno == rno) {
-                            StudentList.remove(student);
-                            System.out.println("Deleted Successfully");
-                            isThere = 1;
-                            break;
-                        }
+                    studentObject = getStudent(StudentList, rno);
+                    if (studentObject != null) {
+                        StudentList.remove(studentObject);
+                        System.out.println("Deleted Successfully");
+                        break;
+                    } else {
+                        System.out.println("There is no Option with this " + option + " chioice");
                     }
-                    if (isThere == 0) {
-                        System.out.println("There is no Student with this rollno: " + rno);
-                    }
-                    break;
-                default:
-                    System.out.println("There is no Option with this " + option + " chioice");
             }
-            System.out.println("You Want to Continue(y/n)");
+            System.out.println("Do You Want to Continue(y/n)");
             isContinue = scan.next().charAt(0);
-        } while (isContinue != 'n');
 
+        } while (isContinue != 'n');
     }
+
 }
