@@ -5,6 +5,8 @@ import com.codebrains.training.employee.dto.Employee;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.InputMismatchException;
@@ -12,12 +14,29 @@ import java.util.Scanner;
 
 public class EmployeeCrud {
 
+    public static boolean isEmployeeExists(int empNo) {
+        try {
+            Connection con = getCon();
+            PreparedStatement st = con.prepareStatement("select * from emp where empno=?");
+            st.setInt(1, empNo);
+            ResultSet rs = st.executeQuery();
+            if (rs.next()) {  //moving from one row to next row
+                return true;
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            System.out.print("Update Failed. Please check Accordingly");
+        }
+        return false;
+    }
+
     public static Connection getCon() throws Exception {
         //step1 load the driver class  
         Class.forName("oracle.jdbc.driver.OracleDriver");
         //step2 create  the connection object  
         Connection con = DriverManager.getConnection(
-                "jdbc:oracle:thin:@ślocalhost:1521:xe", "system", "divya");
+                "jdbc:oracle:thin:@localhost:1521:xe", "system", "divya");
         return con;
     }
 
@@ -54,83 +73,107 @@ public class EmployeeCrud {
                         int c = st.executeUpdate();
                         System.out.println("Added Successfully");
 
-                    } catch (ClassNotFoundException ime) {
+                    } catch (ClassNotFoundException cnfe) {
                         //System.out.print("Please Check Oracle Running or Not ");
+                        //cnfe.printStackTrace();
                         //java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver
                         //java.sql.SQLException: ORA-01017: invalid username/password; logon denied
-                        //ime.printStackTrace();
-                        
+
                         System.out.print("Please Check Oracle Jar is there or not ");
-                    }catch (SQLException ime) {
+                    } catch (SQLException se) {
                         //System.out.print("Please Check Oracle Running or Not ");
                         //java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver
                         //java.sql.SQLException: ORA-01017: invalid username/password; logon denied
-                        //ime.printStackTrace();
-                        
+                        //se.printStackTrace();
+
                         System.out.print("Please Check Oracle Credentials ");
-                    }catch (Exception ime) {
-                        //System.out.print("Please Check Oracle Running or Not ");
-                        //java.lang.ClassNotFoundException: oracle.jdbc.driver.OracleDriver
-                        //java.sql.SQLException: ORA-01017: invalid username/password; logon denied
-                        //ime.printStackTrace();
-                        
+                    } catch (Exception e) {
                         System.out.print("Please Check Some thing is wrong");
                     }
                     break;
                 case 2:
-                    System.out.println("EmpID\tEmpName\tSalary\tdepNum");
-                    for (Employee employee : EmployeeList) {  //for each
-                        System.out.println(employee.empId + "\t" + employee.empName + "\t" + employee.sal + "\t" + employee.depNum);
+
+                    try {
+                        Connection con = getCon();
+                        PreparedStatement st = con.prepareStatement("select * from emp");
+                        ResultSet rs = st.executeQuery();
+                        ResultSetMetaData rsmd = rs.getMetaData();
+                        for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                            System.out.print(rsmd.getColumnName(i) + "\t");
+                        }
+                        System.out.print("\n");
+                        while (rs.next()) {  //moving from one row to next row
+                            for (int i = 1; i <= rsmd.getColumnCount(); i++) {  //pickup each column in the current row
+                                System.out.print(rs.getString(i) + "\t");
+                            }
+                            System.out.print("\n");
+
+                        }
+
+                    } catch (Exception e) {
+                        System.out.print("Update Failed. Please check Accordingly");
                     }
+
                     break;
                 case 3:
                     System.out.print("What is your Employee Number: ");
                     int empId = scan.nextInt();
-                    int isThere = 0;
-                    for (Employee employee : EmployeeList) {  //for each
-                        if (employee.empId == empId) {
-                            System.out.println("EmpID\tEmpName\tSalary\tdepNum");
-                            System.out.println(employee.empId + "\t" + employee.empName + "\t" + employee.sal + "\t" + employee.depNum);
-                            isThere = 1;
-                            break;
+                    try {
+                        Connection con = getCon();
+                        PreparedStatement st = con.prepareStatement("select * from emp where empno=?");
+                        st.setInt(1, empId);
+                        ResultSet rs = st.executeQuery();
+                        if (rs.next()) {  //moving from one row to next row
+                            ResultSetMetaData rsmd = rs.getMetaData();
+                            for (int i = 1; i <= rsmd.getColumnCount(); i++) {
+                                System.out.print(rsmd.getColumnName(i) + "\t");
+                            }
+                            System.out.print("\n");
+                            for (int i = 1; i <= rsmd.getColumnCount(); i++) {  //pickup each column in the current row
+                                System.out.print(rs.getString(i) + "\t");
+                            }
+                        } else {
+                            System.out.println("There is no employee with this " + empId + " Number");
                         }
-                    }
-                    if (isThere == 0) {
-                        System.out.println("There is no Employee with thid ID: " + empId);
+
+                    } catch (Exception e) {
+                        System.out.print("Update Failed. Please check Accordingly");
                     }
                     break;
                 case 4:
                     System.out.print("What is your Employee Number: ");
                     empId = scan.nextInt();
-                    System.out.print("Enter salary for updation:  ");
-                    int sal = scan.nextInt();
-                    isThere = 0;
-                    for (Employee employee : EmployeeList) {  //for each
-                        if (employee.empId == empId) {
-                            employee.sal = sal;
-                            System.out.println("Updated Succesfully");
-                            isThere = 1;
-                            break;
+                    boolean isThere = isEmployeeExists(empId);
+                    if (isThere == true) {
+                        System.out.print("Enter salary for updation:  ");
+                        int sal = scan.nextInt();
+                        try {
+                            Connection con = getCon();
+                            PreparedStatement st = con.prepareStatement("update emp set sal=nvl(sal,0)+? where empno=?");
+                            st.setInt(1, sal);
+                            st.setInt(2, empId);
+                            int c = st.executeUpdate();
+                            System.out.println("Updated Successfully");
+
+                        } catch (Exception e) {
+                            System.out.print("Update Failed. Please check Accordingly");
                         }
-                    }
-                    if (isThere == 0) {
-                        System.out.println("There is no Employee with thid ID: " + empId);
+                    } else {
+                        System.out.println("There is no employee with this " + empId + " Number");
                     }
                     break;
                 case 5:
                     System.out.print("What is your Employee Number: ");
                     empId = scan.nextInt();
-                    isThere = 0;
-                    for (Employee employee : EmployeeList) {  //for each
-                        if (employee.empId == empId) {
-                            EmployeeList.remove(employee);
-                            System.out.println("Deleted Successfully");
-                            isThere = 1;
-                            break;
-                        }
-                    }
-                    if (isThere == 0) {
-                        System.out.println("There is no Employee with thid ID: " + empId);
+                    try {
+                        Connection con = getCon();
+                        PreparedStatement st = con.prepareStatement("delete from emp where empno=?");
+                        st.setInt(1, empId);
+                        int c = st.executeUpdate();
+                        System.out.println("Deleted Successfully");
+
+                    } catch (Exception e) {
+                        System.out.print("Delete Failed. Please check Accordingly");
                     }
                     break;
                 default:
